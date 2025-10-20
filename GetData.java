@@ -3,11 +3,13 @@ import java.io.File;
 import java.io.IOException;
 
 public class GetData {
+    public String getDanceabillity;
+
     public song [] Data() {
         Scanner in;
-    song [] songs = new song[28372];
+    song [] songs = new song[28371];
         try {
-            int count = 1;
+            int count = 0;
             in = new Scanner(new File("songs 2025-2026 ANSI.csv"));
             in.nextLine();
             while (in.hasNext()) {
@@ -26,11 +28,11 @@ public class GetData {
 //public song(String title,String artists, String genre, String topic, int year,int len, double obscene, double audience,double danceabillity, double loudness)
     
                 songs [count] = new song(title, artists, genre, topic, year, len, obscene,audience, danceabillity ,loudness);
-                System.out.println(count + ":" + line.split(";")[2]);
+                System.out.println(count + ":" + line.split(";"));
                 count++;
                 
             }
-            System.out.println(songs[298].getTitle());
+            //System.out.println(songs[298].getTitle());
             in.close();
         } catch (IOException e) {
             System.out.println("error in file reading");
@@ -53,23 +55,24 @@ public class GetData {
     return longest;
  }
 
-  public int songsFromYear(song[]list)
+  public int songsFromYear(song[]list, int year)
  {
-    int c1982 = 0;
+   
+    int countYear = 0;
     for(int i =0;i<28371;i++)
     {
-        if(list[i].getYear() == 1982)
+        if(list[i].getYear() == year)
         {
-            c1982++;
+            countYear++;
         }
     }
-    return c1982;
+    return countYear;
    
  }
 
- public double danceabillity(song[]list)
+ public int danceAbillity(song[]list)
  {
-    double highestDance = 0.0;
+    int highestDance = 0;
     for(int i =0;i<28371;i++)
     {
         if(list[i].getDanceabillity() > .8)
@@ -95,4 +98,35 @@ public class GetData {
     }
     return songTitle;
 }
+
+  public String getLongest(song [] list){
+  double longest = 0;
+  String songTitle = "";
+    for(int i =1;i<list.length;i++)
+    {
+        double length = list[i].getLen();
+        if(length > longest)
+        {
+           longest = length;
+           songTitle = list[i].getTitle();
+        }
+    }
+    return songTitle;
+}
+
+ public String lowShakability(song [] list){
+  double biggest = 1;
+  String songTitle = "";
+    for(int i =1;i<list.length;i++)
+    {
+        double newScore = list[i].getAudience();
+        if(biggest > newScore)
+        {
+           biggest = newScore;
+           songTitle = list[i].getTitle();
+        }
+    }
+    return songTitle;
+}
+
 }
